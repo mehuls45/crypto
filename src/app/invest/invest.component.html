@@ -1,0 +1,172 @@
+<div class="col-18 center">
+      <form #f="ngForm" (ngSubmit)="save(f.value)">
+
+        <div class="form-group">
+            <label for="val"><b>Enter Investment Amount</b></label>
+            <input #val="ngModel" name="val" ngModel type="number" class="form-control" placeholder="Rs" required>
+        </div>
+
+        <button  [disabled]="!f.valid" class="btn btn-primary">Check</button>
+      </form>
+
+      <br>
+
+      <h3 *ngIf="value/UsdToInr" ><span class="badge badge-secondary">
+        INR: {{ value | currency:'INR':'true' }}
+      </span>
+      <span class="badge badge-secondary">
+          USD: {{ (value / UsdToInr).toFixed(3) | currency:'USD':'true'}}
+        </span>
+    </h3>
+
+   <!--    <table class="table">
+        <tr>
+          <th>Bitcoin</th>
+          <th>Bitcash</th>
+          <th>Ethereum</th>
+        </tr>
+        <tr>
+
+           <td [ngClass]="pro" *ngIf="CexBtcInr >= ZebBtcInr">
+            {{ (((value / ZebBtcInr) - ( value / CexBtcInr ))*ZebBtcInr).toFixed(3) | currency:'INR':true }}
+          </td>
+          <td [ngClass]="warn" *ngIf="ZebBtcInr > CexBtcInr">
+            {{ (((value / ZebBtcInr) - ( value / CexBtcInr ))*ZebBtcInr).toFixed(3) | currency:'INR':true }}
+          </td> 
+
+
+
+          <td [ngClass]="pro" *ngIf="CexBchInr >= ZebBchInr">
+              {{ (((value / ZebBchInr) - ( value / CexBchInr ))*ZebBchInr).toFixed(3) | currency:'INR':true }}
+            </td>
+            <td [ngClass]="warn" *ngIf="ZebBchInr > CexBchInr">
+              {{ (((value / ZebBchInr) - ( value / CexBchInr ))*ZebBchInr).toFixed(3) | currency:'INR':true }}
+            </td>
+
+
+
+            <td [ngClass]="pro" *ngIf="CexEthInr >= ZebEthInr">
+                {{ (((value / ZebEthInr) - ( value / CexEthInr ))*ZebEthInr).toFixed(3) | currency:'INR':true }}
+              </td>
+              <td [ngClass]="warn" *ngIf="ZebEthInr > CexEthInr">
+                {{ (((value / ZebEthInr) - ( value / CexEthInr ))*ZebEthInr).toFixed(3) | currency:'INR':true }}
+              </td>
+            
+        </tr>
+      </table> -->
+
+      <table class="table">
+        <thead class="thead-dark">
+            <th>CEX</th>
+            <th>Crypto</th>
+            <th>USD</th>
+            <th>INR</th>
+        </thead>
+        <tr>
+          <th>Bitcoin</th>
+          <td *ngIf="(value / CexBtcInr)">{{ (value / CexBtcInr).toFixed(4) }}</td>
+          <td>{{ value/UsdToInr | currency:'USD':true }}</td>
+          <td>{{ value | currency:'INR':true }}</td>
+        </tr>
+        <tr>
+          <th>Bitcash</th>
+          <td *ngIf="(value / CexBchInr)">{{ (value / CexBchInr).toFixed(4) }}</td>
+          <td>{{ value/UsdToInr | currency:'USD':true }}</td>
+          <td>{{ value | currency:'INR':true }}</td>
+        </tr>
+        <tr>
+          <th>Ethereum</th>
+          <td *ngIf="(value / CexEthInr)">{{ (value / CexEthInr).toFixed(4) }}</td>
+          <td>{{ value/UsdToInr | currency:'USD':true }}</td>
+          <td>{{ value | currency:'INR':true }}</td>
+        </tr>
+      </table>
+    </div>
+    <br>
+
+    <table class="table">
+        <thead class="thead-dark">
+            <th>Zeb</th>
+            <th>Crypto</th>
+            <th>USD</th>
+            <th>INR</th>
+            <th>₹</th>
+            <th>%</th>
+        </thead>
+        <tr>
+          <th>Bitcoin</th>
+          <td *ngIf="(value / CexBtcInr)">
+            {{ (value / CexBtcInr).toFixed(4) }}
+          </td>
+          <td>{{ (value / CexBtcInr)*ZebBtcUsd | currency:'USD':true }}</td>
+          <td>{{ (value / CexBtcInr)*ZebBtcUsd*UsdToInr | currency:'INR':true }}</td>
+
+          <td [ngClass]="pro" *ngIf="(value / CexBtcInr)*ZebBtcUsd*UsdToInr >= value">
+            {{ ((value / CexBtcInr)*ZebBtcUsd*UsdToInr)-value | currency:'INR':true }}
+          </td>
+          <td [ngClass]="warn" *ngIf=" value > (value / CexBtcInr)*ZebBtcUsd*UsdToInr">
+            - {{ value - ((value / CexBtcInr)*ZebBtcUsd*UsdToInr) | currency:'INR':true }}
+          </td>
+
+          <td [ngClass]="pro" *ngIf="(value / CexBtcInr)*ZebBtcUsd*UsdToInr >= value">
+            {{ ((((value / CexBtcInr)*ZebBtcUsd*UsdToInr)-value)*100/value).toFixed(2)  }}%
+          </td>
+          <td [ngClass]="warn" *ngIf=" value > (value / CexBtcInr)*ZebBtcUsd*UsdToInr">
+            - {{ ((value - ((value / CexBtcInr)*ZebBtcUsd*UsdToInr))*100/((value / CexBtcInr)*ZebBtcUsd*UsdToInr)).toFixed(2)  }}%
+          </td>
+
+    
+        </tr>
+        <tr>
+            <th>Bitcash</th>
+            <td *ngIf="(value / CexBchInr)">
+              {{ (value / CexBchInr).toFixed(4) }}
+            </td>
+            <td>{{ (value / CexBchInr)*ZebBchUsd | currency:'USD':true }}</td>
+            <td>{{ (value / CexBchInr)*ZebBchUsd*UsdToInr | currency:'INR':true }}</td>
+
+            <td [ngClass]="pro" *ngIf="(value / CexBchInr)*ZebBchUsd*UsdToInr >= value">
+              {{ ((value / CexBchInr)*ZebBchUsd*UsdToInr)-value | currency:'INR':true }}
+            </td>
+            <td [ngClass]="warn" *ngIf=" value > (value / CexBchInr)*ZebBchUsd*UsdToInr">
+              - {{ value - ((value / CexBchInr)*ZebBchUsd*UsdToInr) | currency:'INR':true }}
+            </td>
+
+            <td [ngClass]="pro" *ngIf="(value / CexBchInr)*ZebBchUsd*UsdToInr >= value">
+              {{ ((((value / CexBchInr)*ZebBchUsd*UsdToInr)-value)*100/value).toFixed(2)  }}%
+            </td>
+            <td [ngClass]="warn" *ngIf=" value > (value / CexBchInr)*ZebBchUsd*UsdToInr">
+              - {{ ((value - ((value / CexBchInr)*ZebBchUsd*UsdToInr))*100/((value / CexBchInr)*ZebBchUsd*UsdToInr)).toFixed(2)  }}%
+            </td>
+
+           
+
+            
+        </tr>
+        <tr>
+            <th>Ethereum</th>
+            <td *ngIf="(value / CexEthInr)">
+              {{ (value / CexEthInr).toFixed(4) }}
+            </td>
+            <td>{{ (value / CexEthInr)*ZebEthUsd | currency:'USD':true }}</td>
+            <td>{{ (value / CexEthInr)*ZebEthUsd*UsdToInr | currency:'INR':true }}</td>
+
+            <td [ngClass]="pro" *ngIf="(value / CexEthInr)*ZebEthUsd*UsdToInr >= value">
+              {{ ((value / CexEthInr)*ZebEthUsd*UsdToInr)-value | currency:'INR':true }}
+            </td>
+            <td [ngClass]="warn" *ngIf=" value > (value / CexEthInr)*ZebEthUsd*UsdToInr">
+              -{{ value - ((value / CexEthInr)*ZebEthUsd*UsdToInr) | currency:'INR':true }}
+            </td>
+
+            <td [ngClass]="pro" *ngIf="(value / CexEthInr)*ZebEthUsd*UsdToInr >= value">
+              {{ ((((value / CexEthInr)*ZebEthUsd*UsdToInr)-value)*100/value).toFixed(2)  }}%
+            </td>
+            <td [ngClass]="warn" *ngIf=" value > (value / CexEthInr)*ZebEthUsd*UsdToInr">
+              -{{ ((value - ((value / CexEthInr)*ZebEthUsd*UsdToInr))*100/((value / CexEthInr)*ZebEthUsd*UsdToInr)).toFixed(2) }}%
+            </td>
+
+           
+            
+        </tr>
+  
+      </table>

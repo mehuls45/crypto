@@ -1,0 +1,20 @@
+.green {
+    color: green;
+    font-weight: 700;
+}
+
+.red {
+    color: red;
+    font-weight: 700;
+}
+
+.yellow {
+    color: black;
+    background: #FFF59D;  
+    font-weight: 500;
+}
+
+.small {
+    max-width: 30px;
+}
+
