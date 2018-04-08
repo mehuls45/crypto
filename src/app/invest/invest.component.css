@@ -11,3 +11,15 @@
 .align {
     text-align: center;
 }
+
+.form-grp-cust{
+	display:inline-flex;
+}
+
+.btn-check{margin-left:6px;}
+.tb-dark-cust th{
+	padding: 0.3rem .75rem 0.3rem;
+}
+form.eia-bx {
+    padding: 25px 0px 8px 0px;
+}

@@ -1,12 +1,33 @@
-
-        <div class="alert alert-dark" role="alert">
-            <h3>1 USD = {{ UsdToInr }} INR</h3>
-          </div>
+<div class="row">
+  <div class="col-md-6">
+    <div class="alert alert-dark" role="alert">
+      <h3><b class="yellow">1 USD = {{ UsdToInr }} INR</b></h3>
+      <button
+      (click)="onKeyUp('reload')"
+      class="btn btn-secondary btn-sm ">Reload</button>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="alert alert-dark" role="alert">
+      <h3>1 USD =
+        <input 
+          class="input-box"
+          [(ngModel)]= "UsdToInr"
+          (keyup.enter)="onKeyUp()"
+          type="number" >
+          INR
+      </h3>
+    </div>
+  </div>
+</div>
     
-          <div class="alert alert-dark" role="alert">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="alert alert-dark" role="alert">
               <h5>Cex (Price for 1 cryto)</h5>
-          </div>
-    
+            </div>
+
+
         <table class="table table-striped">
             <thead class="thead-dark">
               <tr>
@@ -20,116 +41,135 @@
             <tbody>
               <tr>
                 <th scope="row">
-                  <img class="small" src="https://i.imgur.com/67R21dX.png">
+                  <img class="small" src="{{ btcimg }}">
                   Bitcoin</th>
-                <td class="yellow">{{ _CexBtcUsd | currency:'USD':true }}</td>
-                <td>{{ _CexBtcInr | currency:'INR':true }}</td>
-                <td>{{ CexBtcUsd | currency:'USD':true }}</td>
-                <td>{{ CexBtcInr | currency:'INR':true }}</td> 
+                <td class="yellow">{{ CexBtcUsd | currency:'USD':true }}</td>
+                <td>{{ CexBtcInr | currency:'INR':true }}</td>
+                <td>{{ _CexBtcUsd | currency:'USD':true }}</td>
+                <td>{{ _CexBtcInr | currency:'INR':true }}</td> 
               </tr>
               <tr>
                 <th scope="row">
-                    <img class="small" src="https://files.startupranking.com/startup/thumb/15101_78f3f21941779ac5e1fcfe3546833ee2efaad45a_bitcash_m.png">
+                    <img class="small" src="{{ bchimg }}">
                   Bitcoin Cash</th>
-                <td class="yellow">{{ _CexBchUsd | currency:'USD':true }}</td>
-                <td>{{ _CexBchInr | currency:'INR':true }}</td>
-                <td>{{ CexBchUsd | currency:'USD':true }}</td>
+                <td class="yellow">{{ CexBchUsd | currency:'USD':true }}</td>
                 <td>{{ CexBchInr | currency:'INR':true }}</td>
+                <td>{{ _CexBchUsd | currency:'USD':true }}</td>
+                <td>{{ _CexBchInr | currency:'INR':true }}</td>
               </tr>
               <tr>
                 <th scope="row">
-                  <img class="small" src="https://www.ethereum-price.com/img/ETH.svg"> 
+                  <img class="small" src="{{ ethimg }}"> 
                   Ethereum</th>
-                <td class="yellow">{{ _CexEthUsd | currency:'USD':true }}</td>
-                <td>{{ _CexEthInr | currency:'INR':true }}</td>
-                <td>{{ CexEthUsd | currency:'USD':true }}</td>
+                <td class="yellow">{{ CexEthUsd | currency:'USD':true }}</td>
                 <td>{{ CexEthInr | currency:'INR':true }}</td>
+                <td>{{ _CexEthUsd | currency:'USD':true }}</td>
+                <td>{{ _CexEthInr | currency:'INR':true }}</td>
               </tr>
             </tbody>
           </table>
-    
-          <div class="alert alert-dark" role="alert">
-              <h5>Zebpay (Price for 1 cryto)</h5>
           </div>
+
+          <div class="col-md-6">
+
+              <div class="alert alert-dark" role="alert">
+                  <h5>Zebpay (Price for 1 cryto)</h5>
+              </div>
+
+              <table class="table table-striped">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th scope="col">#1</th>
+                      <th scope="col">USD</th>
+                      <th scope="col">INR</th>
+                      <th scope="col">₹</th>
+                      <th scope="col">%</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">
+                        <img class="small" src="{{ btcimg }}">
+                        Bitcoin
+                      </th>
+                      <td>
+                        {{ ZebBtcUsd | currency:'USD':true }}
+                      </td>
+                      <td class="yellow">
+                        {{ ZebBtcInr | currency:'INR':true }}
+                      </td>
+                      <td [ngClass]="pro" *ngIf="ZebBtcInr >= CexBtcInr">
+                        {{ BtcDiff | currency:'INR':true}}
+                      </td>
+                      <td [ngClass]="warn" *ngIf="CexBtcInr > ZebBtcInr">
+                        {{ BtcDiff | currency:'INR':true}}
+                      </td>
+                      <td [ngClass]="pro" *ngIf="ZebBtcInr >= CexBtcInr">
+                        {{ BtcDiffPer.toFixed(6) }}%
+                      </td>
+                      <td [ngClass]="warn" *ngIf="CexBtcInr > ZebBtcInr">
+                        {{ BtcDiffPer.toFixed(6) }}%
+                      </td>
+      
+                    </tr>
+                    <tr>
+                      <th scope="row">
+                        <img class="small" src="{{ bchimg }}">
+                        Bitcoin Cash</th>
+                      <td>
+                        {{ ZebBchUsd | currency:'USD':true }}
+                      </td>
+                      <td class="yellow">
+                        {{ ZebBchInr | currency:'INR':true }}
+                      </td>
+                      <td [ngClass]="pro" *ngIf="ZebBchInr >= CexBchInr">
+                        {{ BchDiff | currency:'INR':true}}
+                      </td>
+                      <td [ngClass]="warn" *ngIf="CexBchInr > ZebBchInr">
+                        {{ BchDiff | currency:'INR':true}}
+                      </td>
+                      <td [ngClass]="pro" *ngIf="ZebBchInr >= CexBchInr">
+                        {{ BchDiffPer.toFixed(6) }}%
+                      </td>
+                      <td [ngClass]="warn" *ngIf="_CexBchInr > ZebBchInr">
+                        {{ BchDiffPer.toFixed(6) }}%
+                      </td>
+      
+                    </tr>
+                    <tr>
+                      <th scope="row">
+                        <img class="small" src="{{ ethimg }}"> 
+                        Ethereum</th>
+                      <td>
+                        {{ ZebEthUsd | currency:'USD':true }}
+                      </td>
+                      <td class="yellow">
+                        {{ ZebEthInr | currency:'INR':true }}
+                      </td>
+                      <td [ngClass]="pro" *ngIf="ZebEthInr >= CexEthInr">
+                        {{ EthDiff | currency:'INR':true}}
+                      </td>
+                      <td [ngClass]="warn" *ngIf="CexEthInr > ZebEthInr">
+                        {{ EthDiff | currency:'INR':true}}
+                      </td>
+                      <td [ngClass]="pro" *ngIf="ZebEthInr >= CexEthInr">
+                        {{ EthDiffPer.toFixed(6) }}%
+                      </td>
+                      <td [ngClass]="warn" *ngIf="CexEthInr > ZebEthInr">
+                        {{ EthDiffPer.toFixed(6) }}%
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+          </div>
+        </div>
+
+      <div class="col-12 center">
+          <app-invest [UsdToInr]="UsdToInr" ></app-invest>
+      </div>
+        
     
-        <table class="table table-striped">
-            <thead class="thead-dark">
-              <tr>
-                <th scope="col">#1</th>
-                <th scope="col">USD</th>
-                <th scope="col">INR</th>
-                <th scope="col">₹</th>
-                <th scope="col">%</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">
-                  <img class="small" src="https://i.imgur.com/67R21dX.png">
-                  Bitcoin</th>
-                <td>{{ ZebBtcUsd | currency:'USD':true }}</td>
-                <td class="yellow">{{ ZebBtcInr | currency:'INR':true }}</td>
-                <td [ngClass]="pro" *ngIf="ZebBtcInr >= _CexBtcInr">
-                     {{ ZebBtcInr - _CexBtcInr | currency:'INR':true}}
-                  </td>
-                  <td [ngClass]="warn" *ngIf="_CexBtcInr > ZebBtcInr">
-                      -{{ _CexBtcInr - ZebBtcInr | currency:'INR':true}}
-                  </td>
-  
-                  <td [ngClass]="pro" *ngIf="ZebBtcInr >= _CexBtcInr">
-                     {{ ((ZebBtcInr - _CexBtcInr)*100/_CexBtcInr).toFixed(2) }}%
-                  </td>
-                  <td [ngClass]="warn" *ngIf="_CexBtcInr > ZebBtcInr">
-                    - {{ ((_CexBtcInr - ZebBtcInr)*100/ZebBtcInr).toFixed(2) }}%
-                  </td>
-
-              </tr>
-              <tr>
-                <th scope="row">
-                  <img class="small" src="https://files.startupranking.com/startup/thumb/15101_78f3f21941779ac5e1fcfe3546833ee2efaad45a_bitcash_m.png">
-                  Bitcoin Cash</th>
-                <td>{{ ZebBchUsd | currency:'USD':true }}</td>
-                <td class="yellow">{{ ZebBchInr | currency:'INR':true }}</td>
-                <td [ngClass]="pro" *ngIf="ZebBchInr >= _CexBchInr">
-                    {{ ZebBchInr - _CexBchInr | currency:'INR':true}}
-                  </td>
-                  <td [ngClass]="warn" *ngIf="_CexBchInr > ZebBchInr">
-                    - {{ _CexBchInr - ZebBchInr | currency:'INR':true}}
-                  </td>
-  
-                  <td [ngClass]="pro" *ngIf="ZebBchInr >= _CexBchInr">
-                      {{ ((ZebBchInr - _CexBchInr)*100/_CexBchInr).toFixed(2) }}%
-                  </td>
-                  <td [ngClass]="warn" *ngIf="_CexBchInr > ZebBchInr">
-                    - {{ ((_CexBchInr - ZebBchInr)*100/ZebBchInr).toFixed(2) }}%
-                  </td>
-
-              </tr>
-              <tr>
-                <th scope="row">
-                    <img class="small" src="https://www.ethereum-price.com/img/ETH.svg"> 
-                  Ethereum</th>
-                <td>
-                  {{ ZebEthUsd | currency:'USD':true }}
-                </td>
-                <td class="yellow">{{ ZebEthInr | currency:'INR':true }}</td>
-
-                <td [ngClass]="pro" *ngIf="ZebEthInr >= _CexEthInr">
-                  {{ ZebEthInr - _CexEthInr | currency:'INR':true}}
-                </td>
-                <td [ngClass]="warn" *ngIf="_CexEthInr > ZebEthInr">
-                  - {{ _CexEthInr - ZebEthInr | currency:'INR':true}}
-                </td>
-
-                <td [ngClass]="pro" *ngIf="ZebEthInr >= _CexEthInr">
-                    {{ ((ZebEthInr - _CexEthInr)*100/_CexEthInr).toFixed(2) }}%
-                </td>
-                <td [ngClass]="warn" *ngIf="_CexEthInr > ZebEthInr">
-                   - {{ ((_CexEthInr - ZebEthInr)*100/ZebEthInr).toFixed(2) }}%
-                </td>
-
-              </tr>
-            </tbody>
-          </table>
+        
 
 

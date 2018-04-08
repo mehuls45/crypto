@@ -12,9 +12,37 @@
     color: black;
     background: #FFF59D;  
     font-weight: 500;
+    padding: 5px 50px 5px 50px;
 }
 
 .small {
     max-width: 30px;
+}
+.alert h3 {
+    font-size: 0.8rem;
+    padding: 6px 0px 0px;
+}
+.alert h5 {
+    font-size: 0.8rem;
+    padding: 6px 0px 0px;
+}
+.alert{
+    padding: 0rem 1.25rem;
+}
+
+.table td, .table th{
+	padding: 0.3rem .75rem 0.3rem;
+    vertical-align: middle;
+}
+
+.input-box {
+    padding: 5px;
+    margin: 2px;
+    border-radius: 5px;
+}
+
+button {
+    margin: 5px;
+    width: 500px;
 }
 
