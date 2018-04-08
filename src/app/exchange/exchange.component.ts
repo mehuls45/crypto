@@ -2,13 +2,17 @@ import { async } from '@angular/core/testing';
 import { HttpModule, Http } from '@angular/http';
 import { Component, OnInit } from '@angular/core';
 import { FetchService } from '../fetch.service';
+import { Observable } from 'rxjs/Observable';
+import { Router } from '@angular/router';
+import 'rxjs/add/observable/combineLatest';
+
 
 @Component({
   selector: 'app-exchange',
   templateUrl: './exchange.component.html',
   styleUrls: ['./exchange.component.css']
 })
-export class ExchangeComponent{
+export class ExchangeComponent {
   UsdToInr: number;
 
   CexBtcUsd: number;
@@ -43,60 +47,97 @@ export class ExchangeComponent{
   BchDiffPer: number;
   EthDiffPer: number;
 
-  pro;
-  warn;
+  pro = 'green';
+  warn = 'red';
+  val: number;
+  ans: number;
+  customRate: number;
 
-  constructor(fetchService: FetchService, http: Http) { 
+  btcimg = 'https://i.imgur.com/67R21dX.png';
+  bchimg = 'https://files.startupranking.com/startup/thumb/15101_78f3f21941779ac5e1fcfe3546833ee2efaad45a_bitcash_m.png';
+  ethimg = 'https://www.ethereum-price.com/img/ETH.svg';
 
-    fetchService.getUsdToInr().subscribe(UsdToInr=>{
-      this.UsdToInr = UsdToInr;
+  constructor(private fetchService: FetchService, http: Http) { 
+
+    fetchService.getObservable().subscribe(res => {
+
+      this.UsdToInr  = parseFloat(res[0]);     
+      this.CexBtcUsd = parseFloat(res[1]);
+      this.CexBchUsd = parseFloat(res[2]);
+      this.CexEthUsd = parseFloat(res[3]);
+      this.ZebBtcInr = parseFloat(res[4]);
+      this.ZebBchInr = parseFloat(res[5]);
+      this.ZebEthInr = parseFloat(res[6]);
+
+      this.CexBtcInr = this.CexBtcUsd * this.UsdToInr;
+      this.CexBchInr = this.CexBchUsd * this.UsdToInr;
+      this.CexEthInr = this.CexEthUsd * this.UsdToInr;
+
+      this._CexBtcUsd = this.CexBtcUsd + this.CexBtcUsd * 0.04;
+      this._CexBchUsd = this.CexBchUsd + this.CexBchUsd * 0.04;
+      this._CexEthUsd = this.CexEthUsd + this.CexEthUsd * 0.04;
+
+      this._CexBtcInr = (this.CexBtcUsd + this.CexBtcUsd * 0.04) * this.UsdToInr;
+      this._CexBchInr = (this.CexBchUsd + this.CexBchUsd * 0.04) * this.UsdToInr;
+      this._CexEthInr = (this.CexEthUsd + this.CexEthUsd * 0.04) * this.UsdToInr;
+
+      this.ZebBtcUsd = this.ZebBtcInr / this.UsdToInr;
+      this.ZebBchUsd = this.ZebBchInr / this.UsdToInr;
+      this.ZebEthUsd = this.ZebEthInr / this.UsdToInr;
+
+      this.BtcDiff = Math.abs(this.ZebBtcInr - this.CexBtcInr);
+      this.BchDiff = Math.abs(this.ZebBchInr - this.CexBchInr);
+      this.EthDiff = Math.abs(this.ZebEthInr - this.CexEthInr);
+
+      this.BtcDiffPer = this.BtcDiff * 100 / this.CexBtcInr;
+      this.BchDiffPer = this.BchDiff * 100 / this.CexBchInr;
+      this.EthDiffPer = this.EthDiff * 100 / this.CexEthInr;
+  
     });
-
-    fetchService.getCexBtcUsd().subscribe(CexBtcUsd => {
-      this.CexBtcUsd = parseFloat(CexBtcUsd); 
-      this._CexBtcUsd = this.CexBtcUsd;
-      this.CexBtcUsd = this.CexBtcUsd + this.CexBtcUsd*0.04; 
-      this._CexBtcInr = fetchService.convertUsdToInr(this._CexBtcUsd, this.UsdToInr);
-      this.CexBtcInr = fetchService.convertUsdToInr(this.CexBtcUsd, this.UsdToInr);
-    });
-
-    fetchService.getCexBchUsd().subscribe(CexBchUsd => {
-      this.CexBchUsd = parseFloat(CexBchUsd);
-      this._CexBchUsd = this.CexBchUsd;
-      this.CexBchUsd = this.CexBchUsd + this.CexBchUsd*0.04;
-      this._CexBchInr = fetchService.convertUsdToInr(this._CexBchUsd, this.UsdToInr);
-      this.CexBchInr = fetchService.convertUsdToInr(this.CexBchUsd, this.UsdToInr);
-    });
-
-    fetchService.getCexEthUsd().subscribe(CexEthUsd => {
-      this.CexEthUsd = parseFloat(CexEthUsd);
-      this._CexEthUsd = this.CexEthUsd;
-      this.CexEthUsd = this.CexEthUsd + this.CexEthUsd*0.04;
-      this._CexEthInr = fetchService.convertUsdToInr(this._CexEthUsd, this.UsdToInr);
-      this.CexEthInr = fetchService.convertUsdToInr(this.CexEthUsd, this.UsdToInr);
-    });
-
-
-    
-    fetchService.getZebBtcInr().subscribe(ZebBtcInr => {
-      this.ZebBtcInr = parseFloat(ZebBtcInr);
-      this.ZebBtcUsd = fetchService.convertInrToUsd(this.ZebBtcInr, this.UsdToInr);
-    });
-
-    fetchService.getZebBchInr().subscribe(ZebBchInr => {
-      this.ZebBchInr = parseFloat(ZebBchInr);
-      this.ZebBchUsd = fetchService.convertInrToUsd(this.ZebBchInr, this.UsdToInr);
-    });
-
-    fetchService.getZebEthInr().subscribe(ZebEthInr => {
-      this.ZebEthInr = parseFloat(ZebEthInr);
-      this.ZebEthUsd = fetchService.convertInrToUsd(this.ZebEthInr, this.UsdToInr);
-    });
-   
-    this.pro = 'green';
-    this.warn = 'red';
-
   }
 
+  onKeyUp(param) {
 
+    if(param == 'reload') {
+      this.UsdToInr = null;
+    }
+
+    this.fetchService.getObservable().subscribe(res => {
+
+      if(this.UsdToInr == null) {
+        this.UsdToInr  = parseFloat(res[0]); 
+      }
+      this.CexBtcUsd = parseFloat(res[1]);
+      this.CexBchUsd = parseFloat(res[2]);
+      this.CexEthUsd = parseFloat(res[3]);
+      this.ZebBtcInr = parseFloat(res[4]);
+      this.ZebBchInr = parseFloat(res[5]);
+      this.ZebEthInr = parseFloat(res[6]);
+
+      this.CexBtcInr = this.CexBtcUsd * this.UsdToInr;
+      this.CexBchInr = this.CexBchUsd * this.UsdToInr;
+      this.CexEthInr = this.CexEthUsd * this.UsdToInr;
+
+      this._CexBtcUsd = this.CexBtcUsd + this.CexBtcUsd * 0.04;
+      this._CexBchUsd = this.CexBchUsd + this.CexBchUsd * 0.04;
+      this._CexEthUsd = this.CexEthUsd + this.CexEthUsd * 0.04;
+
+      this._CexBtcInr = (this.CexBtcUsd + this.CexBtcUsd * 0.04) * this.UsdToInr;
+      this._CexBchInr = (this.CexBchUsd + this.CexBchUsd * 0.04) * this.UsdToInr;
+      this._CexEthInr = (this.CexEthUsd + this.CexEthUsd * 0.04) * this.UsdToInr;
+
+      this.ZebBtcUsd = this.ZebBtcInr / this.UsdToInr;
+      this.ZebBchUsd = this.ZebBchInr / this.UsdToInr;
+      this.ZebEthUsd = this.ZebEthInr / this.UsdToInr;
+
+      this.BtcDiff = Math.abs(this.ZebBtcInr - this.CexBtcInr);
+      this.BchDiff = Math.abs(this.ZebBchInr - this.CexBchInr);
+      this.EthDiff = Math.abs(this.ZebEthInr - this.CexEthInr);
+
+      this.BtcDiffPer = this.BtcDiff * 100 / this.CexBtcInr;
+      this.BchDiffPer = this.BchDiff * 100 / this.CexBchInr;
+      this.EthDiffPer = this.EthDiff * 100 / this.CexEthInr;
+  
+    });
+  }
 }
