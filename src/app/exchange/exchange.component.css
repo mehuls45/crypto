@@ -37,12 +37,12 @@
 
 .input-box {
     padding: 5px;
-    margin: 2px;
+    margin: 12px;
     border-radius: 5px;
 }
 
 button {
     margin: 5px;
-    width: 500px;
+    width: 250px;
+    display: inline;
 }
-

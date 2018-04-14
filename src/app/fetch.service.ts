@@ -19,9 +19,7 @@ export class FetchService{
   ZebEthInr = 'https://www.zebapi.com/api/v1/market/ticker/eth/inr';
 
   val: number;
-
-  check;
-  
+   
   constructor(private http: Http) { 
     
   }
