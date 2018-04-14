@@ -7,7 +7,7 @@ import 'rxjs/add/observable/combineLatest';
 @Injectable()
 export class FetchService{
 
-  UsdToInr = 'http://www.apilayer.net/api/live?access_key=3d505fd8c721347f309eef6d2c5dafe7';
+  UsdToInr = 'http://www.apilayer.net/api/live?access_key=some_string';
 
 
   CexBtcUsd = 'https://cex.io/api/ticker/BTC/USD';
