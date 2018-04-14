@@ -35,6 +35,10 @@ export class InvestComponent {
   ZebBchUsd: number;
   ZebEthUsd: number;
 
+  btcstate;
+  bchstate;
+  ethstate; 
+
   val: number;
   ValUsd: number;
   BtcCrypto: number;
@@ -109,6 +113,10 @@ export class InvestComponent {
       this.BtcCryptoDiffPer = this.BtcCryptoDiff * 100 / this.val;
       this.BchCryptoDiffPer = this.BchCryptoDiff * 100 / this.val;
       this.EthCryptoDiffPer = this.EthCryptoDiff * 100 / this.val;
+
+      (this.ZebBtcCryptoInr >= this.val) ? this.btcstate = 'green': this.btcstate = 'red'; 
+      (this.ZebBchCryptoInr >= this.val) ? this.bchstate = 'green': this.bchstate = 'red';
+      (this.ZebEthCryptoInr >= this.val) ? this.ethstate = 'green': this.ethstate = 'red';
   
     });
   }

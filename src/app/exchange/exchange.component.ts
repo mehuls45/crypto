@@ -47,8 +47,9 @@ export class ExchangeComponent {
   BchDiffPer: number;
   EthDiffPer: number;
 
-  pro = 'green';
-  warn = 'red';
+  btcstate;
+  bchstate;
+  ethstate;
   val: number;
   ans: number;
   customRate: number;
@@ -92,6 +93,10 @@ export class ExchangeComponent {
       this.BtcDiffPer = this.BtcDiff * 100 / this.CexBtcInr;
       this.BchDiffPer = this.BchDiff * 100 / this.CexBchInr;
       this.EthDiffPer = this.EthDiff * 100 / this.CexEthInr;
+
+      (this.ZebBtcInr >= this.CexBtcInr) ? this.btcstate = 'green': this.btcstate = 'red'; 
+      (this.ZebBchInr >= this.CexBchInr) ? this.bchstate = 'green': this.bchstate = 'red';
+      (this.ZebEthInr >= this.CexEthInr) ? this.ethstate = 'green': this.ethstate = 'red';
   
     });
   }
@@ -137,7 +142,12 @@ export class ExchangeComponent {
       this.BtcDiffPer = this.BtcDiff * 100 / this.CexBtcInr;
       this.BchDiffPer = this.BchDiff * 100 / this.CexBchInr;
       this.EthDiffPer = this.EthDiff * 100 / this.CexEthInr;
-  
+
+      (this.ZebBtcInr >= this.CexBtcInr) ? this.btcstate = 'green': this.btcstate = 'red'; 
+      (this.ZebBchInr >= this.CexBchInr) ? this.bchstate = 'green': this.bchstate = 'red';
+      (this.ZebEthInr >= this.CexEthInr) ? this.ethstate = 'green': this.ethstate = 'red';
+
+        
     });
   }
 }

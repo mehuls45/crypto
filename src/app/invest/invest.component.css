@@ -23,3 +23,11 @@
 form.eia-bx {
     padding: 25px 0px 8px 0px;
 }
+
+.inline-display, form {
+    display: inline;
+}
+
+/* form {
+    display: inline;
+} */

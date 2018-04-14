@@ -1,10 +1,13 @@
 <div class="row">
   <div class="col-md-6">
     <div class="alert alert-dark" role="alert">
-      <h3><b class="yellow">1 USD = {{ UsdToInr }} INR</b></h3>
+      <h3><b class="yellow">1 USD = {{ UsdToInr }} INR</b></h3> 
       <button
       (click)="onKeyUp('reload')"
       class="btn btn-secondary btn-sm ">Reload</button>
+      <button
+      (click)="onKeyUp('refresh')"
+      class="btn btn-secondary btn-sm ">Refresh</button>
     </div>
   </div>
   <div class="col-md-6">
@@ -98,16 +101,10 @@
                       <td class="yellow">
                         {{ ZebBtcInr | currency:'INR':true }}
                       </td>
-                      <td [ngClass]="pro" *ngIf="ZebBtcInr >= CexBtcInr">
+                      <td *ngIf="btcstate" [ngClass]="btcstate">
                         {{ BtcDiff | currency:'INR':true}}
                       </td>
-                      <td [ngClass]="warn" *ngIf="CexBtcInr > ZebBtcInr">
-                        {{ BtcDiff | currency:'INR':true}}
-                      </td>
-                      <td [ngClass]="pro" *ngIf="ZebBtcInr >= CexBtcInr">
-                        {{ BtcDiffPer.toFixed(6) }}%
-                      </td>
-                      <td [ngClass]="warn" *ngIf="CexBtcInr > ZebBtcInr">
+                      <td *ngIf="btcstate" [ngClass]="btcstate">
                         {{ BtcDiffPer.toFixed(6) }}%
                       </td>
       
@@ -122,16 +119,12 @@
                       <td class="yellow">
                         {{ ZebBchInr | currency:'INR':true }}
                       </td>
-                      <td [ngClass]="pro" *ngIf="ZebBchInr >= CexBchInr">
+
+                      <td *ngIf="bchstate" [ngClass]="bchstate">
                         {{ BchDiff | currency:'INR':true}}
                       </td>
-                      <td [ngClass]="warn" *ngIf="CexBchInr > ZebBchInr">
-                        {{ BchDiff | currency:'INR':true}}
-                      </td>
-                      <td [ngClass]="pro" *ngIf="ZebBchInr >= CexBchInr">
-                        {{ BchDiffPer.toFixed(6) }}%
-                      </td>
-                      <td [ngClass]="warn" *ngIf="_CexBchInr > ZebBchInr">
+
+                      <td *ngIf="bchstate" [ngClass]="bchstate">
                         {{ BchDiffPer.toFixed(6) }}%
                       </td>
       
@@ -146,16 +139,10 @@
                       <td class="yellow">
                         {{ ZebEthInr | currency:'INR':true }}
                       </td>
-                      <td [ngClass]="pro" *ngIf="ZebEthInr >= CexEthInr">
+                      <td *ngIf="ethstate" [ngClass]="ethstate">
                         {{ EthDiff | currency:'INR':true}}
                       </td>
-                      <td [ngClass]="warn" *ngIf="CexEthInr > ZebEthInr">
-                        {{ EthDiff | currency:'INR':true}}
-                      </td>
-                      <td [ngClass]="pro" *ngIf="ZebEthInr >= CexEthInr">
-                        {{ EthDiffPer.toFixed(6) }}%
-                      </td>
-                      <td [ngClass]="warn" *ngIf="CexEthInr > ZebEthInr">
+                      <td *ngIf="ethstate" [ngClass]="ethstate">
                         {{ EthDiffPer.toFixed(6) }}%
                       </td>
                     </tr>
